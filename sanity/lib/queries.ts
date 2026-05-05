@@ -61,6 +61,34 @@ export const allPricesQuery = groq`
   }
 `;
 
+export const featuredSuccessStoriesQuery = groq`
+  *[_type == "successStory" && featured == true] | order(publishedAt desc) [0..5] {
+    _id,
+    title,
+    tierart,
+    template,
+    photos,
+    generatedImageUrl,
+    text,
+    keywords,
+    publishedAt
+  }
+`;
+
+export const allSuccessStoriesQuery = groq`
+  *[_type == "successStory"] | order(publishedAt desc) {
+    _id,
+    title,
+    tierart,
+    template,
+    photos,
+    generatedImageUrl,
+    text,
+    keywords,
+    publishedAt
+  }
+`;
+
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
     telefon,

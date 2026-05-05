@@ -60,3 +60,20 @@ export interface SanityImage {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type PortableTextBlock = any;
+
+export interface SuccessStoryPreview {
+  _id: string;
+  title: string;
+  tierart?: string;
+  template?: string;
+  photos?: {
+    _key?: string;
+    asset: { _ref: string; _type: string };
+    alt?: string;
+    label?: string;
+  }[];
+  generatedImageUrl?: string;
+  text?: string;
+  keywords?: string[];
+  publishedAt?: string;
+}

@@ -3,11 +3,17 @@ import { Hero } from "@/components/sections/Hero";
 import { AboutPreview } from "@/components/sections/AboutPreview";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { NewsPreview } from "@/components/sections/NewsPreview";
+import { SuccessStories } from "@/components/sections/SuccessStories";
 import { TrustSection } from "@/components/sections/TrustSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { sanityFetch } from "@/sanity/lib/client";
-import { latestNewsQuery, allServicesQuery, siteSettingsQuery } from "@/sanity/lib/queries";
-import type { NewsStory, Service, SiteSettings } from "@/types";
+import {
+  latestNewsQuery,
+  allServicesQuery,
+  siteSettingsQuery,
+  featuredSuccessStoriesQuery,
+} from "@/sanity/lib/queries";
+import type { NewsStory, Service, SiteSettings, SuccessStoryPreview } from "@/types";
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
@@ -17,12 +23,11 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [latestNews, services, siteSettings] = await Promise.all([
+  const [latestNews, services, siteSettings, successStories] = await Promise.all([
     sanityFetch<NewsStory[]>({ query: latestNewsQuery, revalidate: 300 }).catch(() => []),
     sanityFetch<Service[]>({ query: allServicesQuery, revalidate: 3600 }).catch(() => []),
-    sanityFetch<SiteSettings>({ query: siteSettingsQuery, revalidate: 3600 }).catch(
-      () => null
-    ),
+    sanityFetch<SiteSettings>({ query: siteSettingsQuery, revalidate: 3600 }).catch(() => null),
+    sanityFetch<SuccessStoryPreview[]>({ query: featuredSuccessStoriesQuery, revalidate: 300 }).catch(() => []),
   ]);
 
   const heroImageUrl = siteSettings?.heroImage
@@ -39,6 +44,7 @@ export default async function HomePage() {
       <AboutPreview imageUrl={aboutImageUrl} />
       <ServicesSection services={services} />
       {latestNews.length > 0 && <NewsPreview stories={latestNews} />}
+      {successStories.length > 0 && <SuccessStories stories={successStories} />}
       <TrustSection />
       <CTASection variant="light" />
     </>

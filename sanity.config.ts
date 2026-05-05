@@ -41,6 +41,12 @@ export default defineConfig({
             S.listItem()
               .title("Preise")
               .child(S.documentTypeList("price").title("Alle Preise")),
+            S.divider(),
+            S.listItem()
+              .title("🐾 Glückliche Vierbeiner")
+              .child(
+                S.documentTypeList("successStory").title("Alle Erfolgsgeschichten")
+              ),
           ]),
     }),
     visionTool(),
