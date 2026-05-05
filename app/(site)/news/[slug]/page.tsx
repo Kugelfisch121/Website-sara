@@ -2,11 +2,11 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PortableText } from "@portabletext/react";
+import { PortableText, type PortableTextReactComponents } from "@portabletext/react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import { sanityFetch, client } from "@/sanity/lib/client";
-import { newsStoryBySlugQuery, allNewsQuery } from "@/sanity/lib/queries";
+import { newsStoryBySlugQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { Badge } from "@/components/ui/Badge";
 import { ShareButtons } from "@/components/social-share/ShareButtons";
@@ -50,25 +50,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const portableTextComponents = {
+const portableTextComponents: Partial<PortableTextReactComponents> = {
   block: {
-    normal: ({ children }: { children?: React.ReactNode }) => (
+    normal: ({ children }) => (
       <p className="mb-4 leading-relaxed text-brand-text-light">{children}</p>
     ),
-    h2: ({ children }: { children?: React.ReactNode }) => (
+    h2: ({ children }) => (
       <h2 className="font-serif text-2xl font-bold text-brand-text mt-8 mb-4">{children}</h2>
     ),
-    h3: ({ children }: { children?: React.ReactNode }) => (
+    h3: ({ children }) => (
       <h3 className="font-serif text-xl font-semibold text-brand-text mt-6 mb-3">{children}</h3>
     ),
   },
   marks: {
-    strong: ({ children }: { children?: React.ReactNode }) => (
+    strong: ({ children }) => (
       <strong className="font-semibold text-brand-text">{children}</strong>
     ),
-    em: ({ children }: { children?: React.ReactNode }) => (
-      <em className="italic">{children}</em>
-    ),
+    em: ({ children }) => <em className="italic">{children}</em>,
   },
 };
 
@@ -109,7 +107,10 @@ export default async function NewsStoryPage({ params }: Props) {
         <div className="container-site">
           <div className="max-w-3xl mx-auto">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-sm text-brand-text-muted mb-6" aria-label="Breadcrumb">
+            <nav
+              className="flex items-center gap-2 text-sm text-brand-text-muted mb-6"
+              aria-label="Breadcrumb"
+            >
               <Link href="/" className="hover:text-primary transition-colors">
                 Startseite
               </Link>

@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.39.0",
     "@portabletext/react": "^3.2.1",
     "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^3.88.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
