@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Sanity Studio nicht indizieren
+Disallow: /studio
+
+Sitemap: https://tierphysio-klauser.de/sitemap.xml

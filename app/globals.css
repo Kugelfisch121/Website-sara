@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #2D5016;
+  --color-primary-light: #3d6b1f;
+  --color-accent: #F5F0E8;
+  --color-highlight: #C8956C;
+  --color-text: #2C1810;
+  --color-text-light: #5a3e35;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-brand-text bg-white antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+
+  ::selection {
+    @apply bg-highlight/30;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-sans font-semibold rounded-full hover:bg-primary-light transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-transparent border-2 border-primary text-primary font-sans font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  .btn-highlight {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-highlight text-white font-sans font-semibold rounded-full hover:bg-highlight-dark transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-highlight focus:ring-offset-2;
+  }
+
+  .section-title {
+    @apply font-serif text-3xl md:text-4xl text-brand-text leading-tight;
+  }
+
+  .section-subtitle {
+    @apply font-sans text-lg text-brand-text-light leading-relaxed;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-accent-dark/30 overflow-hidden hover:shadow-md transition-shadow duration-200;
+  }
+}
