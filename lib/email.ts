@@ -1,7 +1,14 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? "info@tierphysio-klauser.de";
+
+// Lazy initialization – Resend wirft sofort beim Konstruktor wenn kein API-Key da ist.
+// Daher erst beim tatsächlichen Aufruf instanziieren, nicht beim Modul-Load.
+function getResend() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) throw new Error("RESEND_API_KEY ist nicht konfiguriert.");
+  return new Resend(apiKey);
+}
 
 export interface ContactFormData {
   name: string;
@@ -20,7 +27,7 @@ export interface AppointmentFormData {
 }
 
 export async function sendContactEmail(data: ContactFormData) {
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: "Website <noreply@tierphysio-klauser.de>",
     to: CONTACT_EMAIL,
     replyTo: data.email,
@@ -38,7 +45,7 @@ export async function sendContactEmail(data: ContactFormData) {
 }
 
 export async function sendAppointmentEmail(data: AppointmentFormData) {
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: "Website <noreply@tierphysio-klauser.de>",
     to: CONTACT_EMAIL,
     replyTo: data.email,

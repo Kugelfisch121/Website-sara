@@ -1,8 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+function getAnthropic() {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
 
 export interface GenerateStoryInput {
   title: string;
@@ -42,15 +42,10 @@ Antworte NUR mit einem JSON-Objekt in diesem Format, ohne zusätzlichen Text:
   "excerpt": "Eine kurze Zusammenfassung in maximal 150 Zeichen für die Vorschau"
 }`;
 
-  const message = await anthropic.messages.create({
+  const message = await getAnthropic().messages.create({
     model: "claude-sonnet-4-20250514",
     max_tokens: 1024,
-    messages: [
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
+    messages: [{ role: "user", content: prompt }],
   });
 
   const textContent = message.content.find((c) => c.type === "text");
@@ -59,10 +54,7 @@ Antworte NUR mit einem JSON-Objekt in diesem Format, ohne zusätzlichen Text:
   }
 
   const jsonMatch = textContent.text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) {
-    throw new Error("Ungültiges Antwortformat von der KI");
-  }
+  if (!jsonMatch) throw new Error("Ungültiges Antwortformat von der KI");
 
-  const parsed = JSON.parse(jsonMatch[0]) as GenerateStoryOutput;
-  return parsed;
+  return JSON.parse(jsonMatch[0]) as GenerateStoryOutput;
 }
